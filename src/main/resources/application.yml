@@ -1,5 +1,20 @@
 spring:
+  jpa:
+    open-in-view: false
+
   batch:
     job:
       enabled: false
-
+    jdbc:
+      initialize-schema: always
+      table-prefix: GSADS_
+  datasource-meta:
+    dirver-class-name: com.mysql.cj.jdbc.driver
+    jdbc-url: jdbc:mysql://localhost:3306/meta_db
+    username: root
+    password: 1234
+  datasource-data:
+    dirver-class-name: com.mysql.cj.jdbc.driver
+    jdbc-url: jdbc:mysql://localhost:3306/data_db
+    username: root
+    password: 1234
