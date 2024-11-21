@@ -7,7 +7,7 @@ spring:
       enabled: false
     jdbc:
       initialize-schema: always
-#      isolation-level-for-create: read_committed
+      isolation-level-for-create: read_committed
 
   datasource:
     url: jdbc:postgresql://localhost:5432/test

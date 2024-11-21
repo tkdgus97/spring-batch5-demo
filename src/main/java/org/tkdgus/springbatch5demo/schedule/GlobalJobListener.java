@@ -7,27 +7,29 @@ import org.quartz.JobExecutionException;
 import org.quartz.JobListener;
 
 @Slf4j
-public class CustomJobListener implements JobListener {
+public class GlobalJobListener implements JobListener {
     @Override
     public String getName() {
-        return CustomJobListener.class.getName();
+        return GlobalJobListener.class.getName();
     }
 
     @Override
     public void jobToBeExecuted(JobExecutionContext jobExecutionContext) {
-        log.info("job start before : {}", jobExecutionContext.getJobDetail().getKey().getName());
+        log.info("GLOBAL JOB START BEFORE LISTENER : {}", jobExecutionContext.getJobDetail().getKey().getName());
         JobDataMap jobDataMap = jobExecutionContext.getJobDetail().getJobDataMap();
-        if (jobDataMap.get("v1") == null) {
-            jobDataMap.put("v1",1);
-        }
-//        jobDataMap.putIfAbsent("v1", 1);
+
     }
 
     @Override
     public void jobExecutionVetoed(JobExecutionContext jobExecutionContext) {
+        log.info("JOB 실행 취소 : {}", jobExecutionContext.getJobDetail().getKey().getName());
     }
 
     @Override
     public void jobWasExecuted(JobExecutionContext jobExecutionContext, JobExecutionException e) {
+        if (e != null) {
+            e.printStackTrace();
+        }
+        log.info("JOB 실행 완료 : {}", jobExecutionContext.getJobDetail().getKey().getName());
     }
 }

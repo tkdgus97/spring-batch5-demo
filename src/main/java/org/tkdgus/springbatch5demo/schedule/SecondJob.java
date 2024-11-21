@@ -18,18 +18,18 @@ import org.springframework.scheduling.quartz.QuartzJobBean;
 
 @RequiredArgsConstructor
 @Slf4j
-public class TestFirstJob extends QuartzJobBean {
+public class SecondJob extends QuartzJobBean {
     private final JobLauncher jobLauncher;
     private final JobRegistry jobRegistry;
 
     @Override
     protected void executeInternal(JobExecutionContext context) throws JobExecutionException {
-        log.info("FIRST JOB START {}", LocalDateTime.now());
+        log.info("SECOND JOB START : {}", LocalDateTime.now());
         JobParameters params = new JobParametersBuilder()
-                .addLocalDateTime("FIRST_JOB_PARAM",LocalDateTime.now())
+                .addLocalDateTime("SECOND_JOB_PARAM",LocalDateTime.now())
                 .toJobParameters();
         try {
-            jobLauncher.run(jobRegistry.getJob("FIRST_BATCH"), params);
+            jobLauncher.run(jobRegistry.getJob("SECOND_BATCH"), params);
         } catch (JobExecutionAlreadyRunningException | JobRestartException | JobInstanceAlreadyCompleteException |
                  JobParametersInvalidException | NoSuchJobException e) {
             throw new RuntimeException(e);

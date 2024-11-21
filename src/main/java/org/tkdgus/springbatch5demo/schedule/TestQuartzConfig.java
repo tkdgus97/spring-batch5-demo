@@ -1,19 +1,10 @@
 package org.tkdgus.springbatch5demo.schedule;
 
 import jakarta.annotation.PostConstruct;
-import java.sql.BatchUpdateException;
 import lombok.RequiredArgsConstructor;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.JobBuilder;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
-import org.quartz.TriggerBuilder;
+import org.quartz.*;
+import org.quartz.impl.matchers.KeyMatcher;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.dao.CannotAcquireLockException;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 
 @Configuration
 @RequiredArgsConstructor
@@ -22,9 +13,10 @@ public class TestQuartzConfig {
 
     @PostConstruct
     public void schedulerConfig() throws SchedulerException {
+        JobKey jobKey = new JobKey("FIRST_JOB");
         JobDetail firstJob = JobBuilder.newJob()
-                .withIdentity("FIRST_JOB")
-                .ofType(TestFirstJob.class)
+                .withIdentity(jobKey)
+                .ofType(FirstJob.class)
                 .build();
         Trigger firstTrigger = TriggerBuilder.newTrigger()
                 .withIdentity("FIRST_TRIGGER")
@@ -35,7 +27,7 @@ public class TestQuartzConfig {
 
         JobDetail secondJob = JobBuilder.newJob()
                 .withIdentity("SECOND_JOB")
-                .ofType(TestSecondJob.class)
+                .ofType(SecondJob.class)
                 .build();
         Trigger secondTrigger = TriggerBuilder.newTrigger()
                 .withIdentity("SECOND_TRIGGER")
@@ -43,8 +35,12 @@ public class TestQuartzConfig {
                 .withSchedule(CronScheduleBuilder.cronSchedule("0 0/1 * * * ?"))
                 .forJob(secondJob)
                 .build();
-
+//
         scheduler.scheduleJob(firstJob, firstTrigger);
         scheduler.scheduleJob(secondJob, secondTrigger);
+
+        scheduler.getListenerManager().addJobListener(new GlobalJobListener());
+        scheduler.getListenerManager().addJobListener(new FirstJobListener(), KeyMatcher.keyEquals(jobKey));
+
     }
 }
