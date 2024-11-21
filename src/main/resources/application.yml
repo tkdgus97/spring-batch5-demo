@@ -7,14 +7,20 @@ spring:
       enabled: false
     jdbc:
       initialize-schema: always
-      table-prefix: GSADS_
-  datasource-meta:
-    dirver-class-name: com.mysql.cj.jdbc.driver
-    jdbc-url: jdbc:mysql://localhost:3306/meta_db
-    username: root
+#      isolation-level-for-create: read_committed
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/test
+    username: tkdgus
     password: 1234
-  datasource-data:
-    dirver-class-name: com.mysql.cj.jdbc.driver
-    jdbc-url: jdbc:mysql://localhost:3306/data_db
-    username: root
-    password: 1234
+    driver-class-name: org.postgresql.Driver
+#  datasource-meta:
+#    dirver-class-name: com.mysql.cj.jdbc.driver
+#    jdbc-url: jdbc:mysql://localhost:3306/meta_db
+#    username: root
+#    password: 1234
+#  datasource-data:
+#    dirver-class-name: com.mysql.cj.jdbc.driver
+#    jdbc-url: jdbc:mysql://localhost:3306/data_db
+#    username: root
+#    password: 1234
