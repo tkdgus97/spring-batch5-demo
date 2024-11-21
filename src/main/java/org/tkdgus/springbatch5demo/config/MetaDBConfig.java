@@ -9,18 +9,18 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.transaction.PlatformTransactionManager;
 
-@Configuration
+//@Configuration
 public class MetaDBConfig {
-    @Bean
-    @Primary
-    @ConfigurationProperties(prefix = "spring.datasource-meta")
-    public DataSource metaDBSource() {
-        return DataSourceBuilder.create().build();
-    }
-
-    @Primary
-    @Bean
-    public PlatformTransactionManager metaTransactionManager() {
-        return new DataSourceTransactionManager(metaDBSource());
-    }
+//    @Bean
+//    @Primary
+//    @ConfigurationProperties(prefix = "spring.datasource-meta")
+//    public DataSource metaDBSource() {
+//        return DataSourceBuilder.create().build();
+//    }
+//
+//    @Primary
+//    @Bean
+//    public PlatformTransactionManager metaTransactionManager() {
+//        return new DataSourceTransactionManager(metaDBSource());
+//    }
 }
